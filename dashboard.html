@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        button { margin: 20px; }
+    </style>
+</head>
+<body>
+    <h1 id="welcomeMessage"></h1>
+    <button onclick="logout()">Logout</button>
+    <script>
+        function loadDashboard() {
+            const session = localStorage.getItem('session');
+            if (!session) {
+                location.href = 'index.html';
+                return;
+            }
+
+            //checking the details input in login to let user in or not;
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            let user = users.find(user => user.email === session);
+
+            if (user) {
+                document.getElementById('welcomeMessage').textContent = `Welcome, ${user.firstName}`;
+            } else {
+                location.href = 'index.html';
+            }
+        }
+       
+        //logout function
+        function logout() {
+            localStorage.removeItem('session');
+            location.href = 'index.html';
+        }
+
+        loadDashboard();
+    </script>
+</body>
+</html>
